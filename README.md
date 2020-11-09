@@ -1,8 +1,7 @@
 ArduinoMqtt
 ===========
 
-[![Build Status](https://travis-ci.org/monstrenyatko/ArduinoMqtt.svg?branch=master)](https://travis-ci.org/monstrenyatko/ArduinoMqtt)
-
+[![](https://github.com/monstrenyatko/ArduinoMqtt/workflows/ci/badge.svg?branch=master)](https://github.com/monstrenyatko/ArduinoMqtt/actions?query=workflow%3Aci)
 
 About
 =====

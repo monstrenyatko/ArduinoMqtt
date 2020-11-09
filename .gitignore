@@ -1,11 +1,11 @@
 # PlatformIO
+.pio
 .pioenvs
 .piolibdeps
 lib
 
-# Atom IDE
-.clang_complete
-.gcc-flags.json
+# VS Code
+.vscode
 
 # Eclipse IDE
 .project

@@ -259,39 +259,16 @@ This implementation does copy the topic string.
 Development
 ===========
 
-Eclipse IDE (PlatformIO Core)
------------------------------
+VSCode (PlatformIO)
+-------------------
 
-See [guide](http://docs.platformio.org/en/latest/ide/eclipse.html).
-
-1. Install Eclipse IDE for C/C++ Developers (With CDT plugin).
-2. Install `CDT Cross GCC Built-in Compiler Settings` package using
-Eclipse `Install New Software`.
-3. Go to project directory:
-
-	```sh
-	cd <path to sources>
-	```
-4. Use `pio` to generate project:
-
-	```sh
-	pio init --ide eclipse --board <ID>
-	```
-5. Import the project (`File -> Import -> General -> Existing Projects into Workspace`)
-6. In case of problems with `C` files indexing like some types are not resolved
-but the definition is definitely available in the included header Need to update
-the `Language Mappings` in `Eclipse Preferences` -> `C/C++` -> `Language Mappings`.
-Add next mappings:
-	- `C Header file` to `C++`
-	- `C Source file` to `C++`
-7. In case of problems with `C++11` features syntax, edit the preprocessor compiler command.
-Navigate to `Project` -> `Properties` -> `C/C++ General` -> `Preprocessor Include Paths, Macros etc`
--> `Providers`. Select the `CDT Cross GCC Built-in Compiler Settings` item.
-Add `-std=c++11` to the end of the line in edit-box named as `Command to get compiler specs`.
+1. Install IDE and extension, see official installation [guide](https://docs.platformio.org/en/latest/integration/ide/vscode.html#installation).
+2. Open the project (`File -> Open`).
+3. Use the [PlatformIO Toolbar](https://docs.platformio.org/en/latest/integration/ide/vscode.html#platformio-toolbar)
+or [PlatformIO CLI](https://docs.platformio.org/en/latest/integration/ide/vscode.html#platformio-core-cli) to build the project.
 
 
 Useful links
 ============
 
 - MQTT 3.1.1 [protocol](http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/mqtt-v3.1.1.html)
-

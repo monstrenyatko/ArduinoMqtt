@@ -545,7 +545,7 @@ public:
 		}
 		MQTTString topicString = MQTTString_initializer;
 		topicString.cstring = (char*)topic;
-		unsigned short id;
+		unsigned short id = 0;
 		switch (message.qos) {
 			case QOS1:
 			case QOS2:

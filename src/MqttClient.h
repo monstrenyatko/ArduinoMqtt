@@ -1010,6 +1010,13 @@ private:
 					bool ignore = false;
 					msg.qos = (QoS)msgQos;
 					MQTT_LOG_PRINTFLN("Publish received, qos: %i", msg.qos);
+
+					if (!isTopicExpected(topicName))
+					{
+						MQTT_LOG_PRINTFLN("Unexpected topic");
+						break;
+					}
+
 					switch (msg.qos) {
 						case QOS0:
 							break;
@@ -1122,6 +1129,20 @@ private:
 		if (!delivered) {
 			MQTT_LOG_PRINTFLN("Unexpected message");
 		}
+	}
+
+	bool isTopicExpected(MQTTString& topic) {
+		for (int i = 0; i < mMessageHandlers.size(); ++i) {
+			if (mMessageHandlers.get()[i].isUsed()) {
+				if (MQTTPacket_equals(&topic, (char*)(mMessageHandlers.get()[i].topic))
+					|| isTopicMatched((char*)(mMessageHandlers.get()[i].topic), topic))
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	// Assume topic filter and name is in correct format

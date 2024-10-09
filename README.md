@@ -1,7 +1,7 @@
 ArduinoMqtt
 ===========
 
-[![](https://github.com/monstrenyatko/ArduinoMqtt/workflows/ci/badge.svg?branch=master)](https://github.com/monstrenyatko/ArduinoMqtt/actions?query=workflow%3Aci)
+[![CI](https://github.com/monstrenyatko/ArduinoMqtt/actions/workflows/ci.yml/badge.svg)](https://github.com/monstrenyatko/ArduinoMqtt/actions/workflows/ci.yml)
 
 About
 =====

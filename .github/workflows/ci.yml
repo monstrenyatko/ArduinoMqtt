@@ -20,5 +20,6 @@ jobs:
         run: |
           pio run -e ConnectEsp8266WiFiClient_esp12e
           pio run -e ConnectEthernetClient_pro8MHzatmega328
+          pio run -e ConSubNativeUnix
           pio run -e LwtEsp8266WiFiClient_esp12e
           pio run -e PubSub_pro8MHzatmega328

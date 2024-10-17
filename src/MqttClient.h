@@ -503,8 +503,7 @@ public:
 				MQTT_LOG_PRINTFLN("Keepalive interval: %u sec", mSession.keepAliveTmSec);
 				// Process session-present flag
 				if (!result.sessionPresent) {
-					MQTT_LOG_PRINTFLN("Session is not present => reset subscription");
-					mMessageHandlers.reset();
+					MQTT_LOG_PRINTFLN("Session is not present");
 				}
 			}
 			return isConnected() ? Error::SUCCESS : Error::REFUSED;
@@ -619,18 +618,12 @@ public:
 	 *
 	 *  @param topic - the topic pattern which can include wildcards
 	 *  @param qos - the MQTT QoS value
-	 *  @param cbk - the callback function to be invoked when a message is received for this subscription
 	 *  @return execution status code
 	 */
-	Error::type subscribe(const char* topic, enum QoS qos, MessageHandlerCbk cbk) {
+	Error::type subscribe(const char* topic, enum QoS qos) {
 		Timer timer(mSystem, mOptions.commandTimeoutMs);
 		MQTT_LOG_PRINTFLN("Subscribe, to: %s, qos: %u", topic, qos);
 		if (!isConnected()) {
-			return Error::FAILURE;
-		}
-		// Set handler
-		if (!mMessageHandlers.set(topic, cbk)) {
-			MQTT_LOG_PRINTFLN("Can't set message handler");
 			return Error::FAILURE;
 		}
 		Error::type rc = Error::SUCCESS;
@@ -670,10 +663,6 @@ public:
 				}
 			}
 		}
-		// Release handler if failed
-		if (rc != Error::SUCCESS) {
-			mMessageHandlers.reset(topic);
-		}
 		return rc;
 	}
 
@@ -707,8 +696,6 @@ public:
 			unsigned short ackId;
 			if (MQTTDeserialize_unsuback(&ackId, mRecvBuffer.get(), mRecvBuffer.size()) != 1) {
 				rc = Error::DECODING_FAILURE;
-			} else {
-				mMessageHandlers.reset(topic);
 			}
 		} else {
 			MQTT_LOG_PRINTFLN("Unsubscribe ack is not received, rc: %i, ts: %lu", rc, mSystem.millis());

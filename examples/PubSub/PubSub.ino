@@ -88,6 +88,18 @@ private:
 	SoftwareSerial										*mNet;
 } *network = NULL;
 
+// ============== Subscription callback ========================================
+void processMessage(MqttClient::MessageData& md) {
+	const MqttClient::Message& msg = md.message;
+	char payload[msg.payloadLen + 1];
+	memcpy(payload, msg.payload, msg.payloadLen);
+	payload[msg.payloadLen] = '\0';
+	LOG_PRINTFLN(
+		"Message arrived: qos %d, retained %d, dup %d, packetid %d, payload:[%s]",
+		msg.qos, msg.retained, msg.dup, msg.id, payload
+	);
+}
+
 // ============== Setup all objects ============================================
 void setup() {
 	// Setup hardware serial for logging
@@ -114,18 +126,8 @@ void setup() {
 		mqttOptions, *mqttLogger, *mqttSystem, *mqttNetwork, *mqttSendBuffer,
 		*mqttRecvBuffer, *mqttMessageHandlers
 	);
-}
-
-// ============== Subscription callback ========================================
-void processMessage(MqttClient::MessageData& md) {
-	const MqttClient::Message& msg = md.message;
-	char payload[msg.payloadLen + 1];
-	memcpy(payload, msg.payload, msg.payloadLen);
-	payload[msg.payloadLen] = '\0';
-	LOG_PRINTFLN(
-		"Message arrived: qos %d, retained %d, dup %d, packetid %d, payload:[%s]",
-		msg.qos, msg.retained, msg.dup, msg.id, payload
-	);
+	// Setup message handlers
+	mqttMessageHandlers->set(MQTT_TOPIC_SUB, processMessage);
 }
 
 // ============== Main loop ====================================================
@@ -153,9 +155,7 @@ void loop() {
 		}
 		// Subscribe
 		{
-			MqttClient::Error::type rc = mqtt->subscribe(
-				MQTT_TOPIC_SUB, MqttClient::QOS0, processMessage
-			);
+			MqttClient::Error::type rc = mqtt->subscribe(MQTT_TOPIC_SUB, MqttClient::QOS0);
 			if (rc != MqttClient::Error::SUCCESS) {
 				LOG_PRINTFLN("Subscribe error: %i", rc);
 				LOG_PRINTFLN("Drop connection");

@@ -179,6 +179,7 @@ char* MQTTFormat_toClientString(char* strbuf, int strbuflen, unsigned char* buf,
 		strindex = snprintf(strbuf, strbuflen, "%s", MQTTPacket_names[header.bits.type]);
 		break;
 	}
+	(void)strindex;
 	return strbuf;
 }
 
@@ -255,6 +256,7 @@ char* MQTTFormat_toServerString(char* strbuf, int strbuflen, unsigned char* buf,
 		break;
 	}
 	strbuf[strbuflen] = '\0';
+	(void)strindex;
 	return strbuf;
 }
 

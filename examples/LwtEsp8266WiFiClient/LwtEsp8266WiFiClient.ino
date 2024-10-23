@@ -114,7 +114,7 @@ void loop() {
 		// Setup LWT
 		options.willFlag = true;
 		options.will.topicName.cstring = MQTT_TOPIC_STATUS;
-		options.will.message.cstring = "I am disconnected";
+		options.will.message.cstring = const_cast<char*>("I am disconnected");
 		options.will.retained = true;
 		options.will.qos = MqttClient::QOS0;
 		MqttClient::Error::type rc = mqtt->connect(options, connectResult);

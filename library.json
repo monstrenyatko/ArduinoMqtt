@@ -15,11 +15,10 @@
 	},
 	"export": {
 		"exclude": [
-			"extras"
+			".git*"
 		]
 	},
 	"frameworks": "arduino",
 	"platforms": "*",
 	"examples": "examples/*/*.ino"
 }
-

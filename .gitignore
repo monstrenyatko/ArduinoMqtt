@@ -2,7 +2,6 @@
 .pio
 .pioenvs
 .piolibdeps
-lib
 
 # VS Code
 .vscode

@@ -17,6 +17,7 @@
 
 /* External Includes */
 #include <stdarg.h>
+#include <stdint.h>
 /* Internal Includes */
 #include "MQTTPacket/MQTTPacket.h"
 

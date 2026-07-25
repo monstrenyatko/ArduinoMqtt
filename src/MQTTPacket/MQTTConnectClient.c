@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2014 IBM Corp.
+ * Copyright (c) 2014, 2026 IBM Corp., Ian Craggs
  *
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License v2.0
  * and Eclipse Distribution License v1.0 which accompany this distribution.
  *
  * The Eclipse Public License is available at
- *    http://www.eclipse.org/legal/epl-v10.html
+ *    http://www.eclipse.org/legal/epl-v20.html
  * and the Eclipse Distribution License is available at
  *   http://www.eclipse.org/org/documents/edl-v10.php.
  *
@@ -136,6 +136,7 @@ int MQTTDeserialize_connack(unsigned char* sessionPresent, unsigned char* connac
 	unsigned char* enddata = NULL;
 	int rc = 0;
 	int mylen;
+	int lenlen = 0;
 	MQTTConnackFlags flags = {0};
 
 	FUNC_ENTRY;
@@ -143,7 +144,10 @@ int MQTTDeserialize_connack(unsigned char* sessionPresent, unsigned char* connac
 	if (header.bits.type != CONNACK)
 		goto exit;
 
-	curdata += (rc = MQTTPacket_decodeBuf(curdata, &mylen)); /* read remaining length */
+	if ((lenlen = MQTTPacket_decodeBuf(curdata, &mylen)) < 0) /* read remaining length */
+		goto exit;
+
+	curdata += lenlen; /* move pointer after remaining length field */
 	enddata = curdata + mylen;
 	if (enddata - curdata < 2)
 		goto exit;
